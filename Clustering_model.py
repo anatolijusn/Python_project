@@ -15,7 +15,7 @@ import pyspark
 from pyspark.ml.feature import VectorAssembler, StandardScaler
 from pyspark.ml.pipeline import Pipeline
 from pyspark.ml.clustering import KMeans, GaussianMixture
-
+import pyspark.ml.feature as feat
 findspark.init()
 spark = (
     pyspark.sql.SparkSession
@@ -27,6 +27,10 @@ spark = (
 path_aggregated_df=""
 path_metrics_kmeans_sse=""
 # cia keliai skaitomi is json failo, jau dirbame su parquet failu
+json_file_path = "Params.json"
+with open(json_file_path, 'r') as j:
+     contents = json.load(j)
+cluster=contents['cluster']
 for item in cluster:
     path_aggregated_df=item['path_aggregated_df']
     path_metrics_kmeans_sse=item['path_metrics_kmeans_sse']
@@ -40,31 +44,15 @@ columns_clustering_features = [
     'user_account_balance_last',
     'user_spendings',
     'reloads_inactive_days',
-    'reloads_count',
     'reloads_sum',
     'calls_outgoing_count',
     'calls_outgoing_spendings',
-    'calls_outgoing_duration',
-    'calls_outgoing_spendings_max',
-    'calls_outgoing_duration_max',
-    'calls_outgoing_inactive_days',
-    'calls_outgoing_to_onnet_count',
-    'calls_outgoing_to_onnet_spendings',
-    'calls_outgoing_to_onnet_duration',
-    'calls_outgoing_to_onnet_inactive_days',
-    'calls_outgoing_to_offnet_count',
-    'calls_outgoing_to_offnet_spendings',
-    'calls_outgoing_to_offnet_duration',
-    'calls_outgoing_to_offnet_inactive_days',
-    'calls_outgoing_to_abroad_count',
     'calls_outgoing_to_abroad_spendings',
     'calls_outgoing_to_abroad_duration',
     'calls_outgoing_to_abroad_inactive_days',
     'sms_outgoing_count',
     'sms_outgoing_spendings',
     'sms_outgoing_spendings_max',
-    'sms_outgoing_inactive_days',
-    'sms_outgoing_to_onnet_count',
     'sms_outgoing_to_onnet_spendings',
     'sms_outgoing_to_onnet_inactive_days',
     'sms_outgoing_to_offnet_count',
@@ -83,21 +71,27 @@ columns_clustering_features = [
     'gprs_inactive_days',
     'last_100_reloads_count',
     'last_100_reloads_sum',
-    'last_100_calls_outgoing_duration',
-    'last_100_calls_outgoing_to_onnet_duration',
-    'last_100_calls_outgoing_to_offnet_duration',
-    'last_100_calls_outgoing_to_abroad_duration',
-    'last_100_sms_outgoing_count',
-    'last_100_sms_outgoing_to_onnet_count',
-    'last_100_sms_outgoing_to_offnet_count',
-    'last_100_sms_outgoing_to_abroad_count',
-    'last_100_gprs_usage',
-    'n_months'
+ 
 ]
 # duomenu paruosimas
 vector_assembler = VectorAssembler(
     inputCols=columns_clustering_features, 
     outputCol="initial_features")
+
+#selector = feat.ChiSqSelector(
+#labelCol='churn'
+#, numTopFeatures=10
+#, outputCol='selected')
+#pipeline_sel = Pipeline(stages=[vector_assembler, selector])
+
+#result =(
+#pipeline_sel
+#.fit(clustering_df)
+#.transform(clustering_df)
+
+#)
+#print("ChiSqSelector output with top %d features selected" % selector.getNumTopFeatures())
+#result.show()
 # standartizavimas
 standard_scaler = StandardScaler(
     inputCol="initial_features", 
