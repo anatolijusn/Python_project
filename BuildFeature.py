@@ -1,10 +1,6 @@
 import pyspark
 
 from pyspark.sql import functions
-import os
-import sys
-import findspark
-import time
 import json
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
@@ -12,21 +8,15 @@ import os
 import sys
 import findspark
 import time
-from pyspark import SparkConf, SparkContext
-from pyspark.sql import SparkSession
 import operator
 import functools
 import plotnine as gg
-import pyspark
 import pandas as pd
 import pyspark.sql.functions as sql_fn
 from pyspark.ml import stat
 from pyspark.ml import feature
 import IPython
 
-import pyspark.sql.functions as sql_fn
-from pyspark.ml import stat
-from pyspark.ml import feature
 import uuid
 findspark.init()
 spark = (
@@ -36,8 +26,8 @@ spark = (
     .enableHiveSupport()
     .getOrCreate()
 )
-# sitame faile tiesiog skaitau 2 paruostus failus po "sampling" , keliai nurodyti json faile,  tada apdorojame stulpelius
-# po duomenu gruopavimo idedu issaugau viska parquer formate 
+# sitame faile skaitome 2 paruostus failus po "sampling", keliai nurodyti json faile,  tada apdorojame stulpelius
+# po duomenu grupavimo idedam, issaugom viska parquer formate 
 
 print("start spark")
 customer_usage = ""

@@ -5,12 +5,6 @@ import time
 import json
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
-import os
-import sys
-import findspark
-import time
-from pyspark import SparkConf, SparkContext
-from pyspark.sql import SparkSession
 import operator
 import functools
 import plotnine as gg
@@ -21,9 +15,6 @@ from pyspark.ml import stat
 from pyspark.ml import feature
 import IPython
 
-import pyspark.sql.functions as sql_fn
-from pyspark.ml import stat
-from pyspark.ml import feature
 import uuid
 
 def compute_corr(df, columns, method="pearson"):
