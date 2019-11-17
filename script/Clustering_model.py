@@ -6,12 +6,10 @@ import sys
 import findspark
 import time
 import json
-import os
 import numpy as np
 import operator
 import jsonlines
 import pandas as pd
-import pyspark
 from pyspark.ml.feature import VectorAssembler, StandardScaler
 from pyspark.ml.pipeline import Pipeline
 from pyspark.ml.clustering import KMeans, GaussianMixture
