@@ -1,0 +1,11 @@
+{
+  "customer_usage": "C:\\SymCache\\Data\\customer_usage.csv",
+  "customer_churn": "C:\\SymCache\\Data\\customer_churn.csv",
+
+  "cluster": [
+    {
+      "path_aggregated_df": "../data/sample_aggregated_usage_with_churn",
+      "path_metrics_kmeans_sse" : "../data/metrics_kmeans_see.jsonl"
+    }
+  ]
+}
