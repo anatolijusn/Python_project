@@ -1,4 +1,4 @@
-import os
+﻿import os
 import sys
 import findspark
 import time
@@ -14,7 +14,7 @@ import pyspark.sql.functions as sql_fn
 from pyspark.ml import stat
 from pyspark.ml import feature
 import IPython
-
+import numpy as np
 import uuid
 
 def compute_corr(df, columns, method="pearson"):
@@ -47,7 +47,7 @@ print(customer_churn)
 usage_df = spark.read.csv(customer_usage,header=True,inferSchema=True)
 summary_usage_df = usage_df.describe()
 # bandau gauti descritpion statistikos aprasyma ir irasyti ji csv
-summary_usage_df.toPandas().transpose()
+
 (summary_usage_df
     .toPandas()
     .transpose()
@@ -55,19 +55,31 @@ summary_usage_df.toPandas().transpose()
             index=True, header=False))
 pd.options.display.max_columns = 200
 #sio metu turime tik 2 stulpelius histogramai aprasyti. Turbut mazai. Reiketu dar prideti?
-histogram_columns = ["calls_outgoing_to_onnet_spendings", 
-    "sms_outgoing_spendings",]
+histogram_columns =  [
+    "calls_outgoing_to_onnet_spendings", 
+    "sms_outgoing_spendings",
+    'user_spendings',
+    'sms_outgoing_to_abroad_spendings',
+    'calls_outgoing_to_onnet_spendings',
+    'gprs_spendings'
+]
 columns_correlation = [
     c for c in usage_df.columns 
     if c not in {"user_account_id", "year"}
 ]
-print(columns_correlation)
 
 # irasau i csv faila koreliacijos rezultatus
 corr_pearson_pddf = compute_corr(usage_df, columns_correlation)
 corr_spearman_pddf = compute_corr(usage_df, columns_correlation, "spearman")
 corr_pearson_pddf.to_csv("corr_pearson__usage.csv", index=True, header=True)
 corr_spearman_pddf.to_csv("corr_spearman__usage.csv", index=True, header=True)
+corr_matrix=corr_pearson_pddf.abs()
+upper = corr_matrix.where(np.triu(np.ones(corr_matrix.shape), k=1).astype(np.bool))
+to_drop = [column for column in upper.columns if any(upper[column] > 0.75)]
+remains_feature_list=[x for x in usage_df.columns if x not in to_drop]
+with open('remains_feature.json', 'w') as f:
+    json.dump(remains_feature_list, f)
+histogram_columns =  remains_feature_list
 n_bins = 30
 histogram_dataset = [
     (c, usage_df.select(c).rdd.map(lambda r: r[0]).histogram(n_bins),) 

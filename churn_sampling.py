@@ -15,13 +15,13 @@ spark = (
     .getOrCreate()
 )
 
-usage_df = spark.read.csv("C:\SymCache\Data\customer_usage_00003.csv", header=True)
+usage_df = spark.read.csv("C:\SymCache\Data\customer_usage_00004.csv", header=True)
 cn=usage_df.count()
 ln=len(usage_df.columns)
 print(usage_df.columns)
 #sitie keliai turetu atsidurti json faile.Siuo metu nezinome varianto, tai kai jis atsiras 
 
-churn_df = spark.read.csv("C:\SymCache\Data\customer_churn_00003.csv", header=True)
+churn_df = spark.read.csv("C:\SymCache\Data\customer_churn_00004.csv", header=True)
 chr_cnt=churn_df.count()
 print(churn_df.columns)
 #Bandymas sugeneruoti faila
