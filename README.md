@@ -7,7 +7,3 @@ Komandų vykdymo seka bei parametrų reikšmių paaiškinimai:
 4. BuildClusteringFeatureRandomForestClassifier.py - skaito duomenis, kurie yra išsaugoti parquet formatu ir yra skirtas reikšmingų kitamųjų parinkimui pasinaudojant atsitiktinių miškų klasifikatoriumi; Išvestis - "failopavadinimas.json", čia yra rasti naudingi kintamieji;
 5. Train_Clustering_model.py - failas, kurio kodas skirtas klasterių skaičiaus parinkimui pasinaudojant "k-means" algoritmą. Naudoja duomenis iš folderio "sample_aggregated_usage_with_churn". Gaunami metrikų grafikai: "k_fk.png" bei "k_sse.png" iš kurių galime nustatyti klasterių skaičių;
 6. cluster2.py - imami duomenys parquet formatu iš folderio "sample_aggregated_usage_with_churn", tik jau su ekspertų pasirinktu klasterių skaičiumi. Gaunami denormalizuoti klasterių centrai ir parquet formatu išsaugotą "k-means" klasterizavimo modelį (folderis - "clustered_kmeans__k_5_parquet"). Šių gautų duomenų pagalba atliekamas duomenų segmentavimas (išskirstymas į klasterius).
-
-Task'ai sau:
-1. Sukoduoti taip, kad imtų reikiamą kelią iš atskiro failo, esančio projekto kataloge, kad kodas veiktų jame nekeičiant kelio į failus (to atskiro failo turinys skirtingas kiekvieno kompiutery, bet pavadinimas ir lokacija vienoda ir jo negalima pushinti į GIT);
-2. b
