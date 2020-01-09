@@ -6,6 +6,8 @@
     {
       "path_aggregated_df": "../data/sample_aggregated_usage_with_churn",
       "path_metrics_kmeans_sse" : "../data/metrics_kmeans_see.jsonl"
+      "clustered_kmeans_df": "../data/clustered_kmeans__k_5_parquet",
+      "Number" :  "4"
     }
   ]
 }
